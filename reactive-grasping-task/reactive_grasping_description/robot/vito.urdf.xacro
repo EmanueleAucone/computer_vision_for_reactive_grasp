@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" 
+       name="vito">
+
+  <xacro:arg name="use_mimic_tag" default="true"/>
+       
+  <!-- MODELS -->
+  <xacro:include filename="$(find vito_description)/model/torso.urdf.xacro"/>
+  <xacro:include filename="$(find vito_description)/model/table.urdf.xacro"/>
+  <xacro:include filename="$(find vito_description)/model/materials.urdf"/>
+  <xacro:include filename="$(find lwr_description)/model/kuka_lwr.urdf.xacro"/>
+  <xacro:include filename="$(find soft_hand_description)/model/soft_hand.urdf.xacro"/>
+  <xacro:include filename="$(find reactive_grasping_description)/robot/obj_recognition.urdf.xacro"/>
+  <xacro:include filename="$(find reactive_grasping_description)/robot/object.urdf.xacro"/>
+  <!--<xacro:include filename="$(find kit_head_description)/model/kit_head.urdf.xacro"/>-->
+    
+  <link name="vito_anchor" />
+  
+  <!-- BODY -->
+  <xacro:model_table name="table" 
+                    parent="vito_anchor"
+                    length="4.0"
+                    width="4.0"
+                    height="0.510"
+                    plate_thickness="0.05">
+    <origin xyz="-0.5 2 0" rpy="0 0 0"/>
+  </xacro:model_table>
+
+  <!-- WORKBENCH -->
+  <!--<xacro:model_table name="workbench"
+                    parent="vito_anchor"
+                    length="0.725"
+                    width="1.05"
+                    height="0.960"
+                    plate_thickness="0.1">
+  <origin xyz="-1.25 0.55 0.07" rpy="0 0 0"/>
+  </xacro:model_table>-->
+
+  <!-- TORSO -->
+  <xacro:model_torso name="torso" parent="vito_anchor">
+    <origin xyz="0 0 0"/>
+  </xacro:model_torso>
+  
+  <!-- LEFT ARM -->
+<!--   <xacro:kuka_lwr name="left_arm" parent="vito_anchor">
+    <origin xyz="-0.165 -0.1085854 0.390" rpy="1.5707963267948966 0.5235987010713441 -0.5235990737060282"/>
+    <origin xyz="0.57 0.801 1.407" rpy="3.1415 0.523598 3.1415"/>
+  </xacro:kuka_lwr>
+ -->
+  <!-- LEFT SOFTHAND -->
+  <!--<xacro:soft_hand parent="left_arm_7_link" name="left_hand" left="true" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:soft_hand>-->
+
+  <!-- RIGHT ARM -->
+  <xacro:kuka_lwr name="right_arm" parent="vito_anchor">
+       <!-- <origin xyz="-0.165 0.10858 0.390" rpy="-1.5707963267948966 -0.5235987010713441 0.5235990737060282"/> -->
+       <!-- <origin xyz="-0.165 0.10858 0.390" rpy="-1.5707963267948966 -1.5707963267948966 0.5235990737060282"/> -->
+       <origin xyz="0.1 0.0 0.82" rpy="3.1415 -1.57 0"/>  <!-- xyz="0.1 0.0 0.48" rpy="3.1415 -0.7854 0" -->
+  </xacro:kuka_lwr>
+
+  <!-- RIGHT SOFTHAND 
+  <xacro:soft_hand parent="right_arm_7_link" name="right_hand" left="false" withAdaptiveTransmission="true" useMimicTag="$(arg use_mimic_tag)">
+    <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+  </xacro:soft_hand> -->
+
+  <!-- Aucone-Bagheri -->
+  <!-- CAMERA -->
+  <xacro:obj_recognition parent="right_arm_7_link" name="on_hand_camera">
+    <origin xyz="0.1 0.0 0.5" rpy="0 0 0"/>
+  </xacro:obj_recognition>
+
+  <!-- OBJECT -->
+  <xacro:box_obj parent="vito_anchor" name="box_obj">
+    <origin xyz="0.95 0.0 0.16" rpy="0 0 0"/>
+  </xacro:box_obj>
+
+  <!-- HEAD -->
+  <!--<xacro:kit_head name="head" parent="vito_anchor">
+    <origin xyz="0.0 0.0 ${0.55 + 0.1}" rpy="0.0 0.0 3.141592"/>
+  </xacro:kit_head>-->
+
+</robot>

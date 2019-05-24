@@ -1,0 +1,3 @@
+<launch>  
+  <node name="logIMU" pkg="glove_relative" type="logIMU" output="screen"/>
+</launch>

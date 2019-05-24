@@ -1,0 +1,29 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find reactive_grasping)/config/rosconsole_info_enabled.conf" />
+
+  <rosparam command="load" file="$(find reactive_grasping)/config/comparison_dataset.yaml" />
+
+  <!-- choose whether or not to enable the verbose mode -->
+  <arg name="verbose_mode_glove" default="true"/>
+  <arg name="verbose_mode_detection" default="true"/>
+  <arg name="verbose_mode_motion" default="true"/>
+
+<!--   <include file="$(find glove_acquisition)/launch/glove_publisher.launch">
+    <arg name="glove_pub_verbose_mode" value="$(arg verbose_mode_glove)"/>
+  </include> -->
+
+  <node pkg="reactive_grasping" type="detection" name="detection" output="screen" cwd="ROS_HOME">
+    <param name="verbose_mode" type="bool" value="$(arg verbose_mode_detection)" />
+    <param name="contact_threshold" type="double" value="1600" />  <!-- previous set 1600 -->
+    <param name="false_positive_threshold" type="double" value="200" /> <!-- previous set 200 -->
+    <param name="window_size" type="int" value="30" /> <!-- previous set 30 -->
+    <param name="only_detection" type="bool" value="false" />
+    <param name="calibration" type="bool" value="false" />
+    <param name="glove_topic_name" type="string" value="/glove_data" />
+  </node>
+
+  <node pkg="reactive_grasping" type="motion" name="motion" output="screen" cwd="ROS_HOME">
+    <param name="verbose_mode" type="bool" value="$(arg verbose_mode_motion)" />
+    <param name="detect_contact_delay" type="double" value="1.5" />
+  </node>
+</launch>

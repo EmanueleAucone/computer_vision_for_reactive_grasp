@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<robot name="obj_recognition" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--Define constants-->
+  <xacro:property name="PI" value="3.14159"/>
+  <xacro:property name="mass1" value="10" />
+  <xacro:property name="mass2" value="1" />
+  <xacro:property name="width1" value="0.1" /> <!--link_1 radius-->
+  <xacro:property name="width2" value="0.1" /> <!--link_2 radius-->
+  <xacro:property name="length0" value="0.1" /> <!--link_1 length-->
+  <xacro:property name="length1" value="1.5" /> <!--link_2 length-->
+  <xacro:property name="length2" value="0.1" /> <!--link_3 length-->
+  <xacro:property name="mass_camera" value="0.2" />
+  <xacro:property name="velocity_scale" value="1"/>
+
+  <!--Import gazebo elements-->
+  <xacro:include filename="$(find reactive_grasping_description)/robot/obj_recognition.gazebo.xacro" />
+
+   <xacro:macro name="obj_recognition" params="parent name *origin">
+  
+	  <!--Links-->
+
+	  <!-- RGBD camera -->
+	  <link name="camera_link">
+	  <collision>
+	    <origin xyz="0.025 0 0" rpy="0 0 0"/>
+	    <geometry>
+	      <box size="0.036 0.18 0.04"/>
+	    </geometry>
+	  </collision>
+	  <visual>
+	    <origin xyz="0.025 0 0" rpy="0 0 0"/>
+	    <geometry>
+	      <mesh filename="package://reactive_grasping_description/meshes/d435.dae"/>
+	    </geometry>
+	  </visual>
+	  <inertial>
+	    <mass value="${mass_camera}" />
+	    <origin xyz="0.025 0 0" rpy="0 0 0"/>
+	    <inertia ixx="5.8083e-4" ixy="0" ixz="0" iyy="3.0833e-5" iyz="0" izz="5.9083e-4" />
+	  </inertial>
+	  </link>
+
+	  <!--Joints-->
+	  <joint name="fixed_base_joint" type="fixed">
+	    <axis xyz="0 0 1"/>
+	    <origin rpy="0 ${-pi/2} ${pi}" xyz="0 0 0" />
+	    <parent link="${parent}"/>
+	    <child link="camera_link" />
+	  </joint>
+	  <link name="camera_rgb_frame" />
+	  <joint name="camera_rgb_joint" type="fixed">
+	    <origin rpy="0 0 0" xyz="0 0.0 0" />
+	    <parent link="camera_link" />
+	    <child link="camera_rgb_frame" />
+	  </joint>
+	  <link name="camera_rgb_optical_frame" />
+	  <joint name="camera_rgb_optical_joint" type="fixed">
+	    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0" />
+	    <parent link="camera_rgb_frame" />
+	    <child link="camera_rgb_optical_frame" />
+	  </joint>
+	  <link name="camera_depth_frame" />
+	  <joint name="camera_depth_joint" type="fixed">
+	    <origin rpy="0 0 0" xyz="0 0.049 0" />
+	    <parent link="camera_link" />
+	    <child link="camera_depth_frame" />
+	  </joint>
+	  <link name="camera_depth_optical_frame" />
+	  <joint name="camera_depth_optical_joint" type="fixed">
+	    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0" />
+	    <parent link="camera_depth_frame" />
+	    <child link="camera_depth_optical_frame" />
+	  </joint>
+
+   </xacro:macro>
+
+</robot>

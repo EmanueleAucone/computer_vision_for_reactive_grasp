@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot name="simple_box" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+ <xacro:macro name="box_obj" params="parent name *origin">
+
+   <link name="my_box">
+     <inertial>
+       <origin xyz="0.95 0.0 0.16" />
+       <mass value="1.0" />
+       <inertia  ixx="0.05" ixy="0.0"  ixz="0.0"  iyy="0.05"  iyz="0.0"  izz="0.05" />
+     </inertial>
+     <visual>
+       <origin xyz="0.95 0.0 0.16"/>
+       <geometry>
+         <box size="0.16 0.16 0.32" />
+       </geometry>
+     </visual>
+     <collision>
+       <origin xyz="0.95 0.0 0.16"/>
+       <geometry>
+         <box size="0.16 0.16 0.32" />
+       </geometry>
+     </collision>
+   </link>
+
+   <joint name="obj_base_joint" type="fixed">
+	 <parent link="${parent}"/>
+	 <child link="my_box" />
+	 <axis xyz="1 0 0"/>
+   </joint>
+  <gazebo reference="${parent}">
+   <material>Gazebo/Blue</material>
+  </gazebo>
+
+ </xacro:macro>
+
+</robot>

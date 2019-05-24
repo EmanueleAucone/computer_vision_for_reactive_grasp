@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- Launch arguments -->
+	<arg name="config_col_1" default="$(find imu_glove_finger_touch_utils)/config/config_col_1.yaml"/>
+	<arg name="config_col_2" default="$(find imu_glove_finger_touch_utils)/config/config_col_2.yaml"/>
+
+	<arg name="single_cable" default="true"/>
+
+	<!-- Loading config file to param server -->
+	<group if="$(arg single_cable)">
+		<rosparam command="load" file="$(arg config_col_1)"/>
+	</group>
+	<group unless="$(arg single_cable)">
+		<rosparam command="load" file="$(arg config_col_2)"/>
+	</group>
+
+	<!-- Load qn_interface_imu launch -->
+	<!-- <include file="$(find qb_interface)/launch/qb_interface_imu.launch"></include> -->
+
+	<!-- Load collision identification node -->
+  	<node name="finger_collision_identification" pkg="imu_glove_finger_touch_utils" type="finger_collision_identification" output="screen"/>
+
+</launch>
