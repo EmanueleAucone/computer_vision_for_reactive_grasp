@@ -1,0 +1,3 @@
+<launch>  
+  <node name="borders" pkg="tracker" type="borders" output="screen"/>
+</launch>

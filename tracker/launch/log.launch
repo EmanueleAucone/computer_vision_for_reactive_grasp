@@ -1,0 +1,3 @@
+<launch>  
+  <node name="log" pkg="tracker" type="log" output="screen"/>
+</launch>

@@ -1,0 +1,4 @@
+<launch>  
+  <node name="segmentation" pkg="tracker" type="segmentation" output="screen"/>
+  <node name="marker" pkg="tracker" type="marker" output="screen"/>
+</launch>

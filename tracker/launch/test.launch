@@ -1,0 +1,3 @@
+<launch>  
+  <node name="segmentation2" pkg="tracker" type="segmentation2" output="screen"/>
+</launch>

@@ -1,0 +1,4 @@
+<launch>  
+  <node name="segmentation_sim" pkg="tracker" type="segmentation_sim" output="screen"/>
+  <node name="marker_sim" pkg="tracker" type="marker_sim" output="screen"/>
+</launch>
